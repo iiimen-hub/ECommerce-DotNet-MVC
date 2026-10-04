@@ -1,0 +1,53 @@
+﻿@model Atelier2.Models.Product
+
+@{
+    ViewData["Title"] = "Détails du Produit";
+    var photoPath = "~/images/" + (Model.ImagePath ?? "noimage.jpg");
+}
+
+<h1>Détails du Produit</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Price) DT
+        </dd>
+
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.QteStock)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.QteStock)
+        </dd>
+
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Category.CategoryName)
+        </dd>
+
+        <dt class="col-sm-3">
+            Image
+        </dt>
+        <dd class="col-sm-9">
+            <img src="@photoPath" class="img-thumbnail" style="max-height: 200px; width: auto;" asp-append-version="true" />
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ProductId" class="btn btn-warning">Modifier</a> |
+    <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
+</div>

@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Atelier2</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+            .custom-navbar {
+                background-color: #58b19f !important;
+            }
+
+            .btn-view {
+                background-color: #7bdcb5 !important;
+                color: white !important;
+            }
+
+            .btn-edit {
+                background-color: #5edfff !important;
+                color: white !important;
+            }
+
+            .btn-delete {
+                background-color: #ff7b54 !important;
+                color: white !important;
+            }
+
+            .search-btn {
+                background-color: #ff9f80 !important;
+                border: none !important;
+                color: white !important;
+            }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark custom-navbar mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold text-white" asp-area="" asp-controller="Product" asp-action="Index">Gestion des Articles</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+
+                        <!-- Menu Déroulant Liste d'articles -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Liste d'articles
+                            </a>
+                            <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item text-white" asp-controller="Product" asp-action="Index">Tous les articles</a></li>
+                                <li><a class="dropdown-item text-white" asp-controller="Product" asp-action="Create">Nouvel Article</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <!-- Barre de Recherche -->
+                    <form class="d-flex" asp-controller="Product" asp-action="Search" method="get">
+                        <input class="form-control me-2 bg-dark text-white border-secondary" type="search" name="val" placeholder="Search">
+                        <button class="btn search-btn" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid px-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

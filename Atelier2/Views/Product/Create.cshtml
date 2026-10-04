@@ -1,0 +1,71 @@
+﻿@model Atelier2.ViewModels.CreateViewModel
+
+@{
+    ViewData["Title"] = "Créer un Produit";
+}
+
+<h1>Créer un Produit</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        @* To support file upload set the form element enctype="multipart/form-data" *@
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label">Nom du produit</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Price" class="control-label">Prix</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="QteStock" class="control-label">Quantité en stock</label>
+                <input asp-for="QteStock" class="form-control" />
+                <span asp-validation-for="QteStock" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CategoryId" class="control-label">Catégorie</label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+            @* Image upload field *@
+            <div class="form-group mb-3">
+                <label asp-for="ImagePath" class="control-label">Image</label>
+                <div class="custom-file">
+                    <input asp-for="ImagePath" class="form-control custom-file-input" type="file" />
+                </div>
+                <span asp-validation-for="ImagePath" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Créer" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    @* Ce script permet d'afficher le nom du fichier sélectionné *@
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
+}

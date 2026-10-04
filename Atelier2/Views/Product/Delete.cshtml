@@ -1,0 +1,28 @@
+﻿@model Atelier2.Models.Product
+
+@{
+    ViewData["Title"] = "Supprimer le Produit";
+}
+
+<h1>Supprimer le Produit</h1>
+
+<h3>Êtes-vous sûr de vouloir supprimer ce produit ?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">Nom :</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3">Prix :</dt>
+        <dd class="col-sm-9">@Model.Price TND</dd>
+
+        <dt class="col-sm-3">Quantité :</dt>
+        <dd class="col-sm-9">@Model.QteStock</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="ProductId" />
+        <input type="submit" value="Supprimer" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
+    </form>
+</div>
