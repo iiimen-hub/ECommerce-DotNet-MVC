@@ -1,8 +1,162 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<Atelier2.Models.Product>
+
+@{
+    ViewBag.Title = "Liste des produits";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    /* Vos couleurs d'origine */
+    .bg-custom-primary {
+        background-color: #58b19f !important;
+    }
+
+    .btn-view {
+        background-color: #7bdcb5 !important;
+        color: white !important;
+        font-weight: 600;
+    }
+
+        .btn-view:hover {
+            background-color: #61c7a0 !important;
+            color: white !important;
+        }
+
+    .btn-edit {
+        background-color: #5edfff !important;
+        color: white !important;
+        font-weight: 600;
+    }
+
+        .btn-edit:hover {
+            background-color: #4ac7e6 !important;
+            color: white !important;
+        }
+
+    .btn-delete {
+        background-color: #ff7b54 !important;
+        color: white !important;
+        font-weight: 600;
+    }
+
+        .btn-delete:hover {
+            background-color: #e6653f !important;
+            color: white !important;
+        }
+
+    .badge-promo {
+        background-color: #ff9f80 !important;
+        color: white !important;
+    }
+
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .product-card {
+        border: none;
+        border-radius: 8px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background: #ffffff;
+    }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+
+    .img-container {
+        height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+    }
+
+        .img-container img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+</style>
+
+<!-- 1. BANNIÈRE / CAROUSEL -->
+<div id="promoCarousel" class="carousel slide mb-4 shadow-sm rounded overflow-hidden" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active bg-custom-primary p-4 text-white text-center" style="height: 220px;">
+            <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                <span class="badge badge-promo mb-2 px-3 py-2 fw-bold fs-6">OFFRES SPÉCIALES</span>
+                <h2 class="fw-bold">Nos Meilleures Offres & Articles</h2>
+                <p class="lead fs-6 mb-0">Découvrez tout notre catalogue au meilleur prix.</p>
+            </div>
+        </div>
+        <div class="carousel-item p-4 text-white text-center" style="background-color: #34495e; height: 220px;">
+            <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                <h2 class="fw-bold">Espace E-Commerce Sécurisé</h2>
+                <p class="lead fs-6 mb-0">Gestion avancée des produits, catégories et rôles d'accès.</p>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    </button>
+</div>
+
+<!-- 2. ENTÊTE DE LA LISTE -->
+<div class="d-flex justify-content-between align-items-center mb-4 px-2">
+    <h3 class="fw-bold text-secondary m-0">Catalogue des produits</h3>
+    @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+    {
+        <a asp-action="Create" class="btn btn-view fw-bold">+ Nouveau Produit</a>
+    }
+</div>
+
+<!-- 3. GRILLE DE CARTES -->
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+    @foreach (var item in Model)
+    {
+        <div class="col">
+            <div class="card h-100 product-card shadow-sm p-3">
+
+                <div class="card-body p-0 d-flex flex-column">
+                    <div class="mb-2">
+                        <h5 class="fw-bold text-dark m-0">@item.Name</h5>
+                    </div>
+
+                    <p class="mb-1 text-muted small">
+                        <strong>Prix :</strong> <span class="fs-5 fw-bold text-dark">@item.Price DT</span>
+                    </p>
+                    <p class="mb-2 text-muted small">
+                        <strong>Quantité :</strong> @item.
+                    </p>
+
+                    <!-- Image du produit -->
+                    <div class="img-container my-2 bg-light rounded">
+                        @if (!string.IsNullOrEmpty(item.ImagePath))
+                        {
+                            <img src="~/images/@item.ImagePath" alt="@item.Name" />
+                        }
+                        else
+                        {
+                            <span class="text-muted small">Aucune image</span>
+                        }
+                    </div>
+
+                    <!-- Boutons d'action -->
+                    <div class="mt-auto pt-3 d-flex gap-2">
+                        <a asp-action="Details" asp-route-id="@item.ProductId" class="btn btn-view btn-sm flex-fill text-center">View</a>
+
+                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-edit btn-sm flex-fill text-center">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-delete btn-sm flex-fill text-center">Delete</a>
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
 </div>

@@ -1,15 +1,17 @@
-﻿using System;
-using System.IO;
+﻿using Atelier2.Models;
+using Atelier2.Models.Repositories;
+using Atelier2.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Atelier2.Models;
-using Atelier2.Models.Repositories;
-using Atelier2.ViewModels;
+using System;
+using System.IO;
 
 namespace Atelier2.Controllers
 {
+    [Authorize(Roles = "Admin,Manager")]
     public class ProductController : Controller
     {
         readonly IProductRepository ProductRepository;
@@ -24,6 +26,7 @@ namespace Atelier2.Controllers
         }
 
         // GET: ProductController
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var products = ProductRepository.GetAll();

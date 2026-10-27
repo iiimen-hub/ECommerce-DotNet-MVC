@@ -1,9 +1,12 @@
 ﻿using Atelier2.Models.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Atelier2.Controllers
 {
+    [Authorize(Roles = "Admin,Manager")]
+
     public class CategoryController : Controller
     {
         // GET: CategoryController
@@ -15,6 +18,7 @@ namespace Atelier2.Controllers
         }
 
         // GET: CategoryController
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var Categories = CategRepository.GetAll();
